@@ -1,1 +1,9 @@
 __pycache__/
+*.pyc
+*.pyo
+.vscode/
+.env
+venv/
+outputs/
+*.csv
+*.xlsx
