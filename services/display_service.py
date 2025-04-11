@@ -1,0 +1,15 @@
+def exibir_resumo(nome, resumo, posicao=None):
+    print(f"\n📊 Resumo de {nome} ({posicao if posicao else 'Posição desconhecida'}):")
+    print(f"Score de confiança: {resumo['score']:.2f}")
+    print(f"Score Legenda: {resumo['score_legenda']}")
+    print(f"Jogos analisados: {resumo['jogos_analisados']}")
+    print(f"Jogos disputados: {resumo['jogos_disputados']}")
+    print(f"Média de pontos: {resumo['media_pontos']:.2f}")
+    print(f"Desvio padrão dos pontos: {resumo['desvio_pontos']:.2f}")
+    print(f"Média de minutos: {resumo['media_minutos']:.2f}")
+    print(f"Média de rebotes: {resumo['media_rebotes']:.2f}")
+    print(f"Média de assistências: {resumo['media_assistencias']:.2f}")
+    print(f"Jogou ontem? {'Sim' if resumo['jogou_ontem'] else 'Não'}")
+    print("\n📝 Jogos considerados na análise:")
+    for jogo in resumo["jogos_jogados"]:
+        print(f"📅 {jogo['GAME_DATE']} - {jogo['MATCHUP']} | PTS: {jogo['PTS']} | REB: {jogo['REB']} | AST: {jogo['AST']} | MIN: {jogo['MIN']}")
