@@ -1,15 +1,24 @@
-from utils.globals import tabulate, os
-from services.players_service import buscar_player_id
-from services.game_service import buscar_game_log, buscar_posicao_jogador, listar_jogos_hoje
-from services.analysis_service import analisar_desempenho, comparar_jogadores, minutos_jogados, sugerir_aposta_com_base_no_score
+from services.analysis_service import (
+    analisar_defesa_por_posicao,
+    analisar_desempenho,
+    analisar_jogador,
+    comparar_jogadores,
+    minutos_jogados,
+    sugerir_aposta_com_base_no_score,
+)
 from services.display_service import exibir_resumo
-from services.time_service import buscar_ultimos_jogos, comparar_times
-from utils.formatters import get_team_id_by_name
-from utils.logger import setup_logger
-from services.analysis_service import analisar_jogador
-from utils.exporter import exportar_df_para_csv
 from services.game_analysis_service import exibir_analise_jogo
-from services.players_service import buscar_jogadores_por_time
+from services.game_service import (
+    buscar_game_log,
+    buscar_posicao_jogador,
+    listar_jogos_hoje,
+)
+from services.players_service import buscar_jogadores_por_time, buscar_player_id
+from services.time_service import buscar_ultimos_jogos, comparar_times
+from utils.exporter import exportar_df_para_csv
+from utils.formatters import get_team_id_by_name
+from utils.globals import os, tabulate
+from utils.logger import setup_logger
 
 logger = setup_logger("nba_scraper")
 
@@ -25,7 +34,9 @@ def main():
     if escolha == "1":
         jogador1 = input(f"Digite o nome do primeiro jogador: ").strip()
         jogador2 = input(f"Digite o nome do segundo jogador: ").strip()
-        num_jogos = int(input("Quantos jogos recentes deseja analisar? (padrão = 5): ") or 5)
+        num_jogos = int(
+            input("Quantos jogos recentes deseja analisar? (padrão = 5): ") or 5
+        )
 
         output_dir = os.path.join("outputs", "comparativos", "jogadores")
         os.makedirs(output_dir, exist_ok=True)
@@ -55,9 +66,18 @@ def main():
             print(f"💡 Sugestão de aposta para {jogador1}: {sugestao1}")
             print(f"💡 Sugestão de aposta para {jogador2}: {sugestao2}")
 
-            comparativo = comparar_jogadores(df1, df2, jogador1=jogador1, jogador2=jogador2, pos1=pos1, pos2=pos2)
+            comparativo = comparar_jogadores(
+                df1, df2, jogador1=jogador1, jogador2=jogador2, pos1=pos1, pos2=pos2
+            )
             print("\n✅ Comparação finalizada com sucesso.")
-            print(tabulate(comparativo.round(2), headers="keys", tablefmt="pretty", floatfmt=".2f"))
+            print(
+                tabulate(
+                    comparativo.round(2),
+                    headers="keys",
+                    tablefmt="pretty",
+                    floatfmt=".2f",
+                )
+            )
 
             estatisticas_df1 = analisar_jogador(df1, nome_jogador=jogador1)
             estatisticas_df2 = analisar_jogador(df2, nome_jogador=jogador2)
@@ -68,7 +88,9 @@ def main():
             exportar_df_para_csv(estatisticas_df1, nome_arquivo1, output_dir)
             exportar_df_para_csv(estatisticas_df2, nome_arquivo2, output_dir)
 
-            nome_arquivo = f"{jogador1.replace(' ', '_')}_vs_{jogador2.replace(' ', '_')}.csv"
+            nome_arquivo = (
+                f"{jogador1.replace(' ', '_')}_vs_{jogador2.replace(' ', '_')}.csv"
+            )
             caminho_arquivo = os.path.join(output_dir, nome_arquivo)
 
             comparativo.index.name = "Nome do Jogador"
@@ -78,7 +100,9 @@ def main():
 
         else:
             print("❌ Um dos jogadores não foi encontrado.")
-            logger.error("Erro ao encontrar um dos jogadores: %s ou %s", jogador1, jogador2)
+            logger.error(
+                "Erro ao encontrar um dos jogadores: %s ou %s", jogador1, jogador2
+            )
 
     elif escolha == "2":
         print("\n=== Jogos de hoje ===")
@@ -101,12 +125,14 @@ def main():
         # jogo_formatado = jogos[escolha - 1].replace("🏠 ", "").replace("🛫 ", "").strip()
         # time1, time2 = jogo_formatado.split(" vs ")
         time1 = jogos[escolha - 1]["away_team_name"]
-        time2 = jogos[escolha - 1]["home_team_name"]        
-        num_jogos = int(input("Quantos jogos recentes deseja analisar? (padrão = 5): ") or 5)
+        time2 = jogos[escolha - 1]["home_team_name"]
+        num_jogos = int(
+            input("Quantos jogos recentes deseja analisar? (padrão = 5): ") or 5
+        )
 
         print(f"\nAnalisando os últimos {num_jogos} jogos de {time1} e {time2}...")
         logger.info(f"Analisando confronto: {time1} vs {time2}")
-        
+
         team_id1 = get_team_id_by_name(time1)
         team_id2 = get_team_id_by_name(time2)
 
@@ -120,7 +146,14 @@ def main():
 
         comparativo_times = comparar_times(jogos_time1, jogos_time2)
         print("\n✅ Comparação entre os times finalizada com sucesso.")
-        print(tabulate(comparativo_times.round(2), headers="keys", tablefmt="pretty", floatfmt=".2f"))
+        print(
+            tabulate(
+                comparativo_times.round(2),
+                headers="keys",
+                tablefmt="pretty",
+                floatfmt=".2f",
+            )
+        )
 
         output_dir = os.path.join("outputs", "comparativos", "times")
         os.makedirs(output_dir, exist_ok=True)
@@ -128,9 +161,16 @@ def main():
         nome_arquivo = f"{time1.replace(' ', '_')}_vs_{time2.replace(' ', '_')}.csv"
         caminho_arquivo = os.path.join(output_dir, nome_arquivo)
 
+        media_pg_team1 = analisar_defesa_por_posicao(jogos_time1)
+        media_pg_team2 = analisar_defesa_por_posicao(jogos_time2)
+        print(f"Média de pontos sofridos contra PGs: {media_pg_team1}")
+        print(f"Média de pontos sofridos contra PGs: {media_pg_team2}")
+
         comparativo_times.index.name = "Time"
         comparativo_times.to_csv(caminho_arquivo, index=True, encoding="utf-8-sig")
-        print(f"\n📁 Comparativo entre os times exportado com sucesso para: {caminho_arquivo}")
+        print(
+            f"\n📁 Comparativo entre os times exportado com sucesso para: {caminho_arquivo}"
+        )
         logger.info(f"Exportado comparativo entre times para {caminho_arquivo}")
 
         jogadores_time1 = buscar_jogadores_por_time(team_id1)
@@ -139,7 +179,9 @@ def main():
         exibir_analise_jogo(jogadores_time1, jogadores_time2, time1, time2)
 
     else:
-        print("❌ Opção inválida. Por favor, escolha '1' para jogadores ou '2' para times.")
+        print(
+            "❌ Opção inválida. Por favor, escolha '1' para jogadores ou '2' para times."
+        )
         logger.warning("Opção inválida selecionada no menu principal.")
 
 

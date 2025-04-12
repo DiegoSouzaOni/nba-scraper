@@ -1,6 +1,7 @@
-from utils.globals import pd, datetime
-from utils.formatters import interpretar_score, traduzir_estatisticas
+from services.defense_analysis_service import calcular_media_pontos_sofridos_por_posicao
 from services.estatisticas_service import calcular_medianas_e_estatisticas
+from utils.formatters import interpretar_score, traduzir_estatisticas
+from utils.globals import pd
 
 
 def calcular_score_confianca(media, desvio, minutos, jogou_ontem):
@@ -14,10 +15,10 @@ def calcular_score_confianca(media, desvio, minutos, jogou_ontem):
     score_descanso = 100 if not jogou_ontem else 60
 
     score_total = (
-        peso_media * media +
-        peso_desvio * score_desvio +
-        peso_minutos * score_minutos +
-        peso_descanso * score_descanso
+        peso_media * media
+        + peso_desvio * score_desvio
+        + peso_minutos * score_minutos
+        + peso_descanso * score_descanso
     )
 
     return round(score_total, 2)
@@ -53,7 +54,7 @@ def minutos_jogados(valor):
         return 0.0
 
 
-def analisar_desempenho(game_log_df, quantidade_jogos=5, estatistica='PTS'):
+def analisar_desempenho(game_log_df, quantidade_jogos=5, estatistica="PTS"):
     """Analisa o desempenho do jogador com base nos últimos N jogos."""
 
     jogos_recentes = game_log_df.head(quantidade_jogos).copy()
@@ -73,12 +74,9 @@ def analisar_desempenho(game_log_df, quantidade_jogos=5, estatistica='PTS'):
         data_ultimo_jogo = pd.to_datetime(jogos_jogados.iloc[0]["GAME_DATE"])
         data_anterior = pd.to_datetime(jogos_jogados.iloc[1]["GAME_DATE"])
         jogou_ontem = (data_ultimo_jogo - data_anterior).days == 1
-    
+
     score = calcular_score_confianca(
-        media_pontos,
-        desvio_pontos,
-        media_minutos,
-        jogou_ontem
+        media_pontos, desvio_pontos, media_minutos, jogou_ontem
     )
 
     score_legenda = interpretar_score(score)
@@ -94,7 +92,9 @@ def analisar_desempenho(game_log_df, quantidade_jogos=5, estatistica='PTS'):
         "jogou_ontem": jogou_ontem,
         "score": round(score, 1),
         "score_legenda": score_legenda,
-        "jogos_jogados": jogos_jogados[["GAME_DATE", "MATCHUP", "PTS", "REB", "AST", "MIN"]].to_dict(orient="records")
+        "jogos_jogados": jogos_jogados[
+            ["GAME_DATE", "MATCHUP", "PTS", "REB", "AST", "MIN"]
+        ].to_dict(orient="records"),
     }
 
 
@@ -106,18 +106,27 @@ def calcular_estatisticas(df):
         "Minutos": df["MIN"].mean(),
         "FG%": df["FG_PCT"].mean() * 100,
         "3P%": df["FG3_PCT"].mean() * 100,
-        "FT%": df["FT_PCT"].mean() * 100
+        "FT%": df["FT_PCT"].mean() * 100,
     }
 
 
-def comparar_jogadores(df_jogador1, df_jogador2, jogador1="Jogador 1", jogador2="Jogador 2", pos1="None", pos2="None"):
+def comparar_jogadores(
+    df_jogador1,
+    df_jogador2,
+    jogador1="Jogador 1",
+    jogador2="Jogador 2",
+    pos1="None",
+    pos2="None",
+):
     """Compara estatísticas entre dois jogadores usando DataFrames."""
 
     stats1 = calcular_estatisticas(df_jogador1)
     stats2 = calcular_estatisticas(df_jogador2)
 
-    return pd.DataFrame([stats1, stats2], index=[f"{jogador1} ({pos1})", f"{jogador2} ({pos2})"])
- 
+    return pd.DataFrame(
+        [stats1, stats2], index=[f"{jogador1} ({pos1})", f"{jogador2} ({pos2})"]
+    )
+
 
 def sugerir_aposta_com_base_no_score(resumo, posicao):
     score = resumo["score"]
@@ -129,7 +138,9 @@ def sugerir_aposta_com_base_no_score(resumo, posicao):
     if posicao in ["C", "PF"]:  # Pivô (Center) ou Ala-Pivô
         ajuste_risco = 0.1  # Jogadores mais focados em rebotes e pontos
     elif posicao in ["PG", "SG"]:  # Armador (Point Guard) ou Ala (Shooting Guard)
-        ajuste_risco = 0.2  # Mais arriscado, pois sua produção pode ser mais imprevisível
+        ajuste_risco = (
+            0.2  # Mais arriscado, pois sua produção pode ser mais imprevisível
+        )
     else:
         ajuste_risco = 0.15  # Outras posições, risco moderado
 
@@ -146,18 +157,26 @@ def sugerir_aposta_com_base_no_score(resumo, posicao):
         tipo = "Menos de"
         risco = "🔴 Alto"
 
-    linha_pts = sugerir_linha_aposta(media, desvio, mercado="Pontos", tipo=tipo, risco=risco)
-    linha_ast = sugerir_linha_aposta(assistencias, desvio, mercado="Assistências", tipo=tipo, risco=risco)
-    linha_reb = sugerir_linha_aposta(rebotes, desvio, mercado="Rebotes", tipo=tipo, risco=risco)
+    linha_pts = sugerir_linha_aposta(
+        media, desvio, mercado="Pontos", tipo=tipo, risco=risco
+    )
+    linha_ast = sugerir_linha_aposta(
+        assistencias, desvio, mercado="Assistências", tipo=tipo, risco=risco
+    )
+    linha_reb = sugerir_linha_aposta(
+        rebotes, desvio, mercado="Rebotes", tipo=tipo, risco=risco
+    )
 
     return {
         "Pontos": f"{linha_pts['tipo_aposta']} {linha_pts['linha_sugerida']} {linha_pts['mercado']} ({linha_pts['risco']})",
         "Rebotes": f"{linha_ast['tipo_aposta']} {linha_ast['linha_sugerida']} {linha_ast['mercado']} ({linha_ast['risco']})",
-        "Assistencias": f"{linha_reb['tipo_aposta']} {linha_reb['linha_sugerida']} {linha_reb['mercado']} ({linha_reb['risco']})"
+        "Assistencias": f"{linha_reb['tipo_aposta']} {linha_reb['linha_sugerida']} {linha_reb['mercado']} ({linha_reb['risco']})",
     }
 
 
-def sugerir_linha_aposta(media, desvio, mercado="Pontos", tipo="Mais de", risco="🔒 Baixo"):
+def sugerir_linha_aposta(
+    media, desvio, mercado="Pontos", tipo="Mais de", risco="🔒 Baixo"
+):
     """
     Sugere uma linha de aposta segura com base na média e desvio padrão,
     considerando o tipo de mercado (ex: Pontos, Assistências, Rebotes).
@@ -165,11 +184,7 @@ def sugerir_linha_aposta(media, desvio, mercado="Pontos", tipo="Mais de", risco=
     linha_segura = round(media - desvio, 1)
 
     # Definir mínimo razoável por tipo de mercado
-    limites_minimos = {
-        "Pontos": 5,
-        "Assistências": 2,
-        "Rebotes": 3
-    }
+    limites_minimos = {"Pontos": 5, "Assistências": 2, "Rebotes": 3}
 
     # Valor mínimo seguro para o mercado atual
     minimo = limites_minimos.get(mercado, 3)
@@ -181,5 +196,25 @@ def sugerir_linha_aposta(media, desvio, mercado="Pontos", tipo="Mais de", risco=
         "tipo_aposta": tipo,
         "linha_sugerida": linha_segura,
         "mercado": mercado,
-        "risco": risco
+        "risco": risco,
     }
+
+
+def analisar_defesa_por_posicao(jogos_df: pd.DataFrame) -> float:
+    """
+    Analyze how many points a team usually allows to a specific position.
+
+    Args:
+        team_name (str): Name of the team to analyze.
+        position (str): Position to evaluate (e.g., 'PG', 'SG', 'SF', 'PF', 'C').
+        season (str): NBA season (default is '2024-25').
+
+    Returns:
+        float: Average points allowed to the given position.
+    """
+    try:
+        media = calcular_media_pontos_sofridos_por_posicao(jogos_df)
+        return media
+    except Exception as e:
+        print(f"Error analyzing defense by position for {jogos_df}: {e}")
+        return 0.0
