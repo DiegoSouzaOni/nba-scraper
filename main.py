@@ -1,4 +1,5 @@
 from services.analysis_service import (
+    adicionar_opponent_stats_ao_dataframe,
     analisar_defesa_por_posicao,
     analisar_desempenho,
     analisar_jogador,
@@ -6,6 +7,7 @@ from services.analysis_service import (
     minutos_jogados,
     sugerir_aposta_com_base_no_score,
 )
+from services.defense_analysis_service import calcular_media_pontos_sofridos_por_posicao
 from services.display_service import exibir_resumo
 from services.game_analysis_service import exibir_analise_jogo
 from services.game_service import (
@@ -160,6 +162,18 @@ def main():
 
         nome_arquivo = f"{time1.replace(' ', '_')}_vs_{time2.replace(' ', '_')}.csv"
         caminho_arquivo = os.path.join(output_dir, nome_arquivo)
+
+        print("[ETAPA] Adicionando opponent_stats ao DataFrame de jogos...")
+        jogos_df1 = adicionar_opponent_stats_ao_dataframe(jogos_time1)
+        jogos_df2 = adicionar_opponent_stats_ao_dataframe(jogos_time2)
+
+        print("[ETAPA] Calculando média de pontos sofridos por posição...")
+        media_posicao_team1 = calcular_media_pontos_sofridos_por_posicao(jogos_df1)
+        media_posicao_team2 = calcular_media_pontos_sofridos_por_posicao(jogos_df2)
+
+        print("[RESULTADO FINAL] Média de pontos sofridos por posição:")
+        print(media_posicao_team1)
+        print(media_posicao_team2)
 
         media_pg_team1 = analisar_defesa_por_posicao(jogos_time1)
         media_pg_team2 = analisar_defesa_por_posicao(jogos_time2)

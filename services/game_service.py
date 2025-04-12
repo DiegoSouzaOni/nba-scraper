@@ -82,6 +82,7 @@ def buscar_game_log_time(team_id, num_jogos):
 
 def listar_jogos_hoje():
     hoje = datetime.now().strftime("%Y-%m-%d")
+    # ontem = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
     url = f"https://stats.nba.com/stats/scoreboardV2?DayOffset=0&LeagueID=00&gameDate={hoje}"
 
     try:
