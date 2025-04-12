@@ -1,4 +1,7 @@
-from services.defense_analysis_service import calcular_media_pontos_sofridos_por_posicao
+from services.defense_analysis_service import (
+    calcular_media_pontos_sofridos_por_posicao,
+    gerar_opponent_stats_por_jogo,
+)
 from services.estatisticas_service import calcular_medianas_e_estatisticas
 from utils.formatters import interpretar_score, traduzir_estatisticas
 from utils.globals import pd
@@ -69,6 +72,9 @@ def analisar_desempenho(game_log_df, quantidade_jogos=5, estatistica="PTS"):
     media_rebotes = jogos_jogados["REB"].mean()
     media_assistencias = jogos_jogados["AST"].mean()
 
+    media_defensiva = calcular_media_pontos_sofridos_por_posicao(game_log_df)
+    print("Média de pontos sofridos por posição (contexto defensivo):", media_defensiva)
+
     jogou_ontem = False
     if len(jogos_jogados) > 1:
         data_ultimo_jogo = pd.to_datetime(jogos_jogados.iloc[0]["GAME_DATE"])
@@ -92,6 +98,7 @@ def analisar_desempenho(game_log_df, quantidade_jogos=5, estatistica="PTS"):
         "jogou_ontem": jogou_ontem,
         "score": round(score, 1),
         "score_legenda": score_legenda,
+        "defensive_context": media_defensiva,
         "jogos_jogados": jogos_jogados[
             ["GAME_DATE", "MATCHUP", "PTS", "REB", "AST", "MIN"]
         ].to_dict(orient="records"),
@@ -218,3 +225,17 @@ def analisar_defesa_por_posicao(jogos_df: pd.DataFrame) -> float:
     except Exception as e:
         print(f"Error analyzing defense by position for {jogos_df}: {e}")
         return 0.0
+
+
+def adicionar_opponent_stats_ao_dataframe(jogos_df: pd.DataFrame) -> pd.DataFrame:
+    if "Game_ID" not in jogos_df.columns or "Team_ID" not in jogos_df.columns:
+        print("[ERRO] As colunas 'Game_ID' e/ou 'Team_ID' estão ausentes.")
+        return jogos_df
+
+    jogos_df["opponent_stats"] = jogos_df.apply(
+        lambda row: gerar_opponent_stats_por_jogo(row["Game_ID"], row["Team_ID"]),
+        axis=1,
+    )
+
+    print("[SUCESSO] opponent_stats adicionados ao DataFrame.")
+    return jogos_df
