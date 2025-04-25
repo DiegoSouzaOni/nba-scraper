@@ -7,3 +7,4 @@ venv/
 outputs/
 *.csv
 *.xlsx
+*.db

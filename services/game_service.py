@@ -10,6 +10,36 @@ from utils.globals import (
 from utils.headers import default_headers
 from utils.helpers import formatar_season_type_para_url, traduzir_posicao_para_ptbr
 from utils.scraper import get_with_cloudscraper
+# from clients.nba_api_client import NBAApiClient
+
+
+# class GameService:
+#     def __init__(self, client: NBAApiClient):
+#         self.client = client
+
+#     def get_games_by_endpoint(self, endpoint_obj):
+#         """
+#         Receives a GameEndpoint instance with endpoint and params already set.
+#         """
+
+#         data = self.client.get(endpoint_obj)
+#         if not data:
+#             print("[GameService] No data returned.")
+#             return {}
+
+#         try:
+#             result_sets = data.get("resultSets", [])
+#             print(f"[GameService] {len(result_sets)} result sets found.")
+#             return result_sets
+#         except Exception as e:
+#             print(f"[GameService] Error while processing result: {e}")
+#             return {}
+
+
+
+
+
+
 
 
 def buscar_game_log(player_id, num_jogos=5):

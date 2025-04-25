@@ -1,26 +1,48 @@
 from utils.globals import unidecode, requests, json, os, pd, SEASON_DEFAULT
 from utils.headers import default_headers
+from clients.nba_api_client import NBAApiClient
 
 
-# def extrair_ppg(df, jogador):
-#     linha = df[df["PLAYER"] == jogador]
-#     if not linha.empty:
-#         return float(linha["PTS"].values[0])
-#     return None
+def get_player_stats(player_id: str, season: str = "2024-25"):
+    """
+    Get statistics for a specific player.
+    """
+    endpoint = "playergamelog"
+    params = {
+        "PlayerID": player_id,
+        "Season": season,
+        "SeasonType": "Regular Season"
+    }
+
+    client = NBAApiClient(endpoint, params)
+    data = client.get()
+
+    if not data:
+        print("[PlayerService] No data returned.")
+        return {}
+
+    return data.get("resultSets", [])
 
 
-# def extrair_rpg(df, jogador):
-#     linha = df[df["PLAYER"] == jogador]
-#     if not linha.empty:
-#         return float(linha["REB"].values[0])
-#     return None
+def extrair_ppg(df, jogador):
+    linha = df[df["PLAYER"] == jogador]
+    if not linha.empty:
+        return float(linha["PTS"].values[0])
+    return None
 
 
-# def extrair_apg(df, jogador):
-#     linha = df[df["PLAYER"] == jogador]
-#     if not linha.empty:
-#         return float(linha["AST"].values[0])
-#     return None
+def extrair_rpg(df, jogador):
+    linha = df[df["PLAYER"] == jogador]
+    if not linha.empty:
+        return float(linha["REB"].values[0])
+    return None
+
+
+def extrair_apg(df, jogador):
+    linha = df[df["PLAYER"] == jogador]
+    if not linha.empty:
+        return float(linha["AST"].values[0])
+    return None
 
 
 def buscar_player_id(nome_jogador, debug=False, usar_cache=True):
