@@ -21,3 +21,55 @@
 2025-04-12 20:31:14,715 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Orlando_Magic_vs_Indiana_Pacers.csv
 2025-04-12 20:36:00,917 - INFO - Analisando confronto: Orlando Magic vs Indiana Pacers
 2025-04-12 20:36:05,220 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Orlando_Magic_vs_Indiana_Pacers.csv
+2025-04-23 18:45:52,422 - INFO - Analisando confronto: Orlando Magic vs Boston Celtics
+2025-04-23 18:45:59,572 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Orlando_Magic_vs_Boston_Celtics.csv
+2025-04-23 18:48:56,715 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Jaylen_Brown_vs_Paolo_Banchero.csv
+2025-04-23 18:51:46,718 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Cole_Anthony_vs_Derrick_White.csv
+2025-04-23 18:57:50,936 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Donovan_Mitchell_vs_Bam_Adebayo.csv
+2025-04-23 19:00:42,388 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Jalen_Green_vs_Stephen_Curry.csv
+2025-04-23 19:04:06,491 - INFO - Analisando confronto: Orlando Magic vs Boston Celtics
+2025-04-23 19:04:09,034 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Orlando_Magic_vs_Boston_Celtics.csv
+2025-04-23 19:04:56,435 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Jayson_Tatum_vs_Jaylen_Brown.csv
+2025-04-23 19:05:58,410 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Kristaps_Porziņģis_vs_Jrue_Holiday.csv
+2025-04-23 19:06:30,123 - ERROR - Erro ao encontrar um dos jogadores: Derrick White3 ou Al Horford
+2025-04-23 19:06:42,140 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Derrick_White_vs_Al_Horford.csv
+2025-04-23 19:10:46,639 - WARNING - Opção inválida selecionada no menu principal.
+2025-04-23 19:11:06,402 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Paolo_Banchero_vs_Franz_Wagner.csv
+2025-04-23 19:12:30,457 - WARNING - Opção inválida selecionada no menu principal.
+2025-04-23 19:12:40,344 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Jalen_Suggs_vs_Wendell_Carter_Jr.csv
+2025-04-23 19:13:16,741 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Cole_Anthony_vs_Kentavious_Caldwell-Pope.csv
+2025-04-23 19:16:12,535 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Paolo_Banchero_vs_Wendell_Carter_Jr.csv
+2025-04-23 19:18:06,970 - INFO - Analisando confronto: Miami Heat vs Cleveland Cavaliers
+2025-04-23 19:18:13,840 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Miami_Heat_vs_Cleveland_Cavaliers.csv
+2025-04-23 19:20:18,543 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Donovan_Mitchell_vs_Darius_Garland.csv
+2025-04-23 19:21:58,096 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Evan_Mobley_vs_Jarrett_Allen.csv
+2025-04-23 19:23:49,134 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Max_Strus_vs_Bam_Adebayo.csv
+2025-04-23 19:27:52,530 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Tyler_Herro_vs_Terry_Rozier.csv
+2025-04-23 19:28:46,176 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Duncan_Robinson_vs_Andrew_Wiggins.csv
+2025-04-23 19:29:14,798 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Kevin_Love_vs_Andrew_Wiggins.csv
+2025-04-23 19:30:17,610 - INFO - Analisando confronto: Golden State Warriors vs Houston Rockets
+2025-04-23 19:30:23,703 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Golden_State_Warriors_vs_Houston_Rockets.csv
+2025-04-23 19:32:13,345 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Jalen_Green_vs_Alperen_Şengün.csv
+2025-04-23 19:33:22,654 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Fred_VanVleet_vs_Dillon_Brooks.csv
+2025-04-23 19:35:13,015 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Jabari_Smith_Jr_vs_Amen_Thompson.csv
+2025-04-23 19:35:43,539 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Stephen_Curry_vs_Jimmy_Butler.csv
+2025-04-23 19:36:08,086 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Draymond_Green_vs_Klay_Thompson.csv
+2025-04-23 19:36:34,757 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Andrew_Wiggins_vs_Chris_Paul.csv
+2025-04-24 11:13:56,756 - INFO - Analisando confronto: New York Knicks vs Detroit Pistons
+2025-04-24 11:14:02,726 - INFO - Exportado comparativo entre times para outputs\comparativos\times\New_York_Knicks_vs_Detroit_Pistons.csv
+2025-04-24 18:26:57,863 - INFO - Analisando confronto: New York Knicks vs Detroit Pistons
+2025-04-24 18:27:03,593 - INFO - Exportado comparativo entre times para outputs\comparativos\times\New_York_Knicks_vs_Detroit_Pistons.csv
+2025-04-24 18:31:32,885 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\OG_Anunoby_vs_Cade_Cunningham.csv
+2025-04-24 18:34:07,156 - INFO - Analisando confronto: Oklahoma City Thunder vs Memphis Grizzlies
+2025-04-24 18:34:12,711 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Oklahoma_City_Thunder_vs_Memphis_Grizzlies.csv
+2025-04-24 18:35:25,754 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Shai_Gilgeous-Alexander_vs_Isaiah_Hartenstein.csv
+2025-04-24 18:37:37,199 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\James_Harden_vs_Russell_Westbrook.csv
+2025-04-24 22:25:58,526 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\OG_Anunoby_vs_Lebron_James.csv
+2025-04-25 10:24:55,635 - INFO - Analisando confronto: Boston Celtics vs Orlando Magic
+2025-04-25 10:25:04,468 - INFO - Exportado comparativo entre times para outputs\comparativos\times\Boston_Celtics_vs_Orlando_Magic.csv
+2025-04-25 10:30:45,791 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Paolo_Banchero_vs_Derrick_White.csv
+2025-04-25 10:42:00,926 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Giannis_Antetokounmpo_vs_Tyrese_Haliburton.csv
+2025-04-25 10:43:54,108 - WARNING - Opção inválida selecionada no menu principal.
+2025-04-25 10:43:57,148 - WARNING - Opção inválida selecionada no menu principal.
+2025-04-25 10:44:19,111 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Bobby_Portis_vs_Aaron_Nesmith.csv
+2025-04-25 11:10:15,789 - INFO - Exportado comparativo de jogadores para outputs\comparativos\jogadores\Rui_Hachimura_vs_Austin_Reaves.csv

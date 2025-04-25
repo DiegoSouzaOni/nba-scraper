@@ -3,7 +3,7 @@
 from services.game_service import buscar_game_log, buscar_posicao_jogador
 from services.analysis_service import analisar_desempenho
 from services.display_service import exibir_resumo
-from services.players_service import buscar_player_id
+from services.player_service import buscar_player_id
 
 
 def analisar_jogadores_da_partida(jogadores, quantidade_jogos=5):

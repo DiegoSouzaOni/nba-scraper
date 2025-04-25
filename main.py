@@ -15,7 +15,7 @@ from services.game_service import (
     buscar_posicao_jogador,
     listar_jogos_hoje,
 )
-from services.players_service import buscar_jogadores_por_time, buscar_player_id
+from services.player_service import buscar_jogadores_por_time, buscar_player_id
 from services.time_service import buscar_ultimos_jogos, comparar_times
 from utils.exporter import exportar_df_para_csv
 from utils.formatters import get_team_id_by_name
